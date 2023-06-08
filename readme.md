@@ -3,5 +3,8 @@ I've tried writing it with Python before, but when I was younger, it was really 
 
 ## Versions
 
+### v0.0.2
+added aging and creation of the aging system
+
 ### v0.0.1
 created species, and attribution determinator
