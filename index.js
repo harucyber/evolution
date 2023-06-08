@@ -20,7 +20,7 @@ function createspecies(age, health, skill){
 }
 
 // Variables Users can Alter
-var limyear = 10; // set how many years is the limit of the experiment.
+var limyear = 40; // set how many years is the limit of the experiment.
 
 function main(){
     const specieslist = []
@@ -29,16 +29,33 @@ function main(){
         specieslist.push(createspecies(0,0,0));
     }
 
-    // Aging
+    // Time Progression
     for (var year = 0; year < limyear; year++){
-        for (var a = 0; a < specieslist.length; a++){
 
-            var species2 = specieslist[a].split("~")[0];
-            var ageincrement = Number(species2) + 1;
-            specieslist[a] = specieslist[a].replace(species2, ageincrement);
-            
+        // Increase Age of Each Subject
+        for (var a = 0; a < specieslist.length; a++){
+            var localage = specieslist[a].split("~")[0];
+            var ageincrement = Number(localage) + 1;
+            specieslist[a] = specieslist[a].replace(localage, ageincrement);
         }
+
+
+        for (var b = 0; b < specieslist.length; b++){
+            // Decrease Health (based on scaled age factor) of Each Subject
+            var localhp = specieslist[b].split("~")[1];
+            var healthchange = Math.floor(1 - (Math.random()));
+
+            // Decrease Health (based on skilled factor) of Each Subject
+            var healthchange = (Number(healthchange) - (1 - specieslist[b].split("~")[2]/100));
+            healthchange = (Number(localhp) + Number(healthchange));
+
+            // Change HP based on HP Change
+            specieslist[b] = specieslist[b].replace(localhp, healthchange);
+        }
+
     }
+    console.log(specieslist)
+    
 
 }
 
