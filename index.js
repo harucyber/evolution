@@ -20,7 +20,7 @@ function createspecies(age, health, skill){
 }
 
 // Variables Users can Alter
-var limyear = 40; // set how many years is the limit of the experiment.
+var limyear = 200; // set how many years is the limit of the experiment.
 
 function main(){
     const specieslist = []
@@ -31,28 +31,47 @@ function main(){
 
     // Time Progression
     for (var year = 0; year < limyear; year++){
+            try{
+    // Increase Age of Each Subject
+            for (var a = 0; a < specieslist.length; a++){
+                var localage = specieslist[a].split("~")[0];
+                var ageincrement = Number(localage) + 1;
+                specieslist[a] = specieslist[a].replace(localage, ageincrement);
+            }
 
-        // Increase Age of Each Subject
-        for (var a = 0; a < specieslist.length; a++){
-            var localage = specieslist[a].split("~")[0];
-            var ageincrement = Number(localage) + 1;
-            specieslist[a] = specieslist[a].replace(localage, ageincrement);
-        }
+            for (var b = 0; b < specieslist.length; b++){
+                // Decrease Health (based on scaled age factor) of Each Subject
+                var localhp = specieslist[b].split("~")[1];
+                var healthchange = Math.floor(1 - (Math.random()));
 
+                // Decrease Health (based on skilled factor) of Each Subject
+                var healthchange = (Number(healthchange) - (1 - specieslist[b].split("~")[2]/100));
+                healthchange = (Number(localhp) + Number(healthchange));
 
-        for (var b = 0; b < specieslist.length; b++){
-            // Decrease Health (based on scaled age factor) of Each Subject
-            var localhp = specieslist[b].split("~")[1];
-            var healthchange = Math.floor(1 - (Math.random()));
+                // Change HP based on HP Change
+                specieslist[b] = specieslist[b].replace(localhp, healthchange);
+            }
 
-            // Decrease Health (based on skilled factor) of Each Subject
-            var healthchange = (Number(healthchange) - (1 - specieslist[b].split("~")[2]/100));
-            healthchange = (Number(localhp) + Number(healthchange));
-
-            // Change HP based on HP Change
-            specieslist[b] = specieslist[b].replace(localhp, healthchange);
-        }
-
+            // Check and Kill Functionality
+            for (var c = 0; c < specieslist.length; c++){
+                var localhp = specieslist[c].split("~")[1];
+                
+                // Enter Subject into an Random Health Killer after Under 30 HP 
+                if (Number(localhp) < 30){
+                    var localdeath = false;
+                    var deathroll = Math.floor(Math.random()*100);
+                    if (deathroll => 70){
+                        localdeath = true;
+                    }
+                
+                // If Died, kill subject
+                
+                if (localdeath = true){
+                    delete specieslist[c];;
+                    var deathcount = deathcount + 1;
+                }
+                }
+            }}
     }
     console.log(specieslist)
     
